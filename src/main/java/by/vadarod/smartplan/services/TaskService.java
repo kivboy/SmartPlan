@@ -1,9 +1,10 @@
 package by.vadarod.smartplan.services;
 
-import by.vadarod.smartplan.entity.Task;
+import by.vadarod.smartplan.dto.task.TaskCreateRequest;
+import by.vadarod.smartplan.dto.task.TaskResponse;
 
 public interface TaskService {
-    Task addTask(Task task);
-    Task getTaskById(Long taskId);
+    TaskResponse addTask(TaskCreateRequest createRequest);
+    TaskResponse getTaskById(Long taskId);
     void deleteTaskById(Long taskId);
 }

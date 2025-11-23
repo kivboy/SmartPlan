@@ -9,8 +9,8 @@ import lombok.ToString;
 
 @Entity
 @Table(schema = "plans", name = "users")
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @ToString
 public class User {
@@ -25,8 +25,10 @@ public class User {
     private String email;
     @Column (name = "user_role", nullable = false)
     private UserRole role;
+    @Column (nullable = false)
+    private String password;
 
-    public User(String firstName, String lastName, String email, UserRole role) {
+    public User(String firstName, String lastName, String email, UserRole role, String password) {
         if ((firstName != null) && firstName.isBlank()) {
             throw new IllegalArgumentException("User firstName must not be blank!");
         }
@@ -39,11 +41,15 @@ public class User {
         if (role == null) {
             throw new IllegalArgumentException("User role must not be null!");
         }
+        if ((password == null) || password.isBlank()) {
+            throw new IllegalArgumentException("User password must not be null or blank!");
+        }
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.role = role;
+        this.password = password;
     }
 
     public static boolean isValidEmail(String email) {

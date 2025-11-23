@@ -1,34 +1,42 @@
 package by.vadarod.smartplan.services;
 
+import by.vadarod.smartplan.dto.comment.CommentCreateRequest;
+import by.vadarod.smartplan.dto.comment.CommentResponse;
+import by.vadarod.smartplan.dto.comment.CommentUpdateRequest;
 import by.vadarod.smartplan.entity.Comment;
+import by.vadarod.smartplan.mapper.CommentMapper;
 import by.vadarod.smartplan.repository.CommentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
 
-    @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
+//    @Autowired
+//    public CommentServiceImpl(CommentRepository commentRepository) {
+//        this.commentRepository = commentRepository;
+//    }
+
+    @Override
+    public CommentResponse addComment(CommentCreateRequest createRequest) {
+        Comment comment = commentMapper.toEntity(createRequest);
+        return commentMapper.toResponse(commentRepository.save(comment));
     }
 
     @Override
-    public Comment addComment(Comment comment) {
-        return commentRepository.save(comment);
-    }
-
-    @Override
-    public Comment findCommentById(Long commentId) {
-        Optional<Comment> comment = commentRepository.findById(commentId);
-        if (comment.isPresent()) {
-            return comment.get();
+    public CommentResponse findCommentById(Long commentId) {
+        Optional<Comment> commentOptional = commentRepository.findById(commentId);
+        if (commentOptional.isPresent()) {
+            return commentMapper.toResponse(commentOptional.get());
         } else {
-            return new Comment();
+            return new CommentResponse();
         }
     }
 
@@ -38,7 +46,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment updateComment(Comment comment) {
-        return commentRepository.save(comment);
+    public CommentResponse updateComment(CommentUpdateRequest updateRequest) {
+        Optional<Comment> commentOptional = commentRepository.findById(updateRequest.getId());
+        if (commentOptional.isPresent()) {
+            Comment comment = commentOptional.get();
+            comment.setText(updateRequest.getText());
+            comment.setUpdated(LocalDateTime.now());
+            return commentMapper.toResponse(commentRepository.save(comment));
+        } else {
+            return new CommentResponse();
+        }
     }
 }
