@@ -1,6 +1,9 @@
 package by.vadarod.smartplan.services;
 
+import by.vadarod.smartplan.dto.task.TaskCreateRequest;
+import by.vadarod.smartplan.dto.task.TaskResponse;
 import by.vadarod.smartplan.entity.Task;
+import by.vadarod.smartplan.mapper.TaskMapper;
 import by.vadarod.smartplan.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,24 +14,26 @@ import java.util.Optional;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final TaskMapper taskMapper;
 
     @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository) {
+    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
+        this.taskMapper = taskMapper;
     }
 
     @Override
-    public Task addTask(Task task) {
-        return taskRepository.save(task);
+    public TaskResponse addTask(TaskCreateRequest createRequest) {
+        return taskMapper.toResponse(taskRepository.save(taskMapper.toEntity(createRequest)));
     }
 
     @Override
-    public Task getTaskById(Long taskId) {
-        Optional<Task> task= taskRepository.findById(taskId);
-        if (task.isPresent()) {
-            return task.get();
+    public TaskResponse getTaskById(Long taskId) {
+        Optional<Task> taskOptional= taskRepository.findById(taskId);
+        if (taskOptional.isPresent()) {
+            return taskMapper.toResponse(taskOptional.get());
         } else {
-            return new Task();
+            return new TaskResponse();
         }
     }
 

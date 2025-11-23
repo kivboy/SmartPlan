@@ -1,10 +1,10 @@
 package by.vadarod.smartplan.services;
 
-import by.vadarod.smartplan.entity.Project;
+import by.vadarod.smartplan.dto.project.ProjectCreateRequest;
+import by.vadarod.smartplan.dto.project.ProjectResponse;
 
 public interface ProjectService {
-    Project addProject(Project project);
-    void deleteProject(Project project);
+    ProjectResponse addProject(ProjectCreateRequest createRequest);
     void deleteProjectById(Long projectId);
-    Project getProjectById(Long projectId);
+    ProjectResponse getProjectById(Long projectId);
 }

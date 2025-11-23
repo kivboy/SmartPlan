@@ -1,9 +1,12 @@
 package by.vadarod.smartplan.services;
 
-import by.vadarod.smartplan.entity.User;
+import by.vadarod.smartplan.dto.user.UserCreateRequest;
+import by.vadarod.smartplan.dto.user.UserResponse;
+import by.vadarod.smartplan.dto.user.UserUpdateRequest;
 
 public interface UserService {
-    User addUser(User user);
-    User getUserById(Long userId);
+    UserResponse addUser(UserCreateRequest createRequest);
+    UserResponse getUserById(Long userId);
     void deleteUserById(Long userId);
+    void updateUser(UserUpdateRequest updateRequest);
 }

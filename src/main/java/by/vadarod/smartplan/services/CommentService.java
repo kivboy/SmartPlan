@@ -1,10 +1,12 @@
 package by.vadarod.smartplan.services;
 
-import by.vadarod.smartplan.entity.Comment;
+import by.vadarod.smartplan.dto.comment.CommentCreateRequest;
+import by.vadarod.smartplan.dto.comment.CommentResponse;
+import by.vadarod.smartplan.dto.comment.CommentUpdateRequest;
 
 public interface CommentService {
-    Comment addComment(Comment comment);
-    Comment findCommentById(Long commentId);
+    CommentResponse addComment(CommentCreateRequest createRequest);
+    CommentResponse findCommentById(Long commentId);
     void deleteCommentById(Long commentId);
-    Comment updateComment(Comment comment);
+    CommentResponse updateComment(CommentUpdateRequest updateRequest);
 }

@@ -1,44 +1,42 @@
 package by.vadarod.smartplan.services;
 
+import by.vadarod.smartplan.dto.project.ProjectCreateRequest;
+import by.vadarod.smartplan.dto.project.ProjectResponse;
 import by.vadarod.smartplan.entity.Project;
+import by.vadarod.smartplan.mapper.ProjectMapper;
 import by.vadarod.smartplan.repository.ProjectRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final ProjectMapper projectMapper;
 
-//    @Autowired
-//    public ProjectServiceImpl(ProjectRepository projectRepository) {
-//        this.projectRepository = projectRepository;
-//    }
-
-    public Project addProject(Project project) {
-        return projectRepository.save(project);
+    @Autowired
+    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectMapper projectMapper) {
+        this.projectRepository = projectRepository;
+        this.projectMapper = projectMapper;
     }
 
-    public void deleteProject(Project project) {
-        projectRepository.delete(project);
+    public ProjectResponse addProject(ProjectCreateRequest createRequest) {
+        Project project = projectMapper.toEntity(createRequest);
+        return projectMapper.toResponse(projectRepository.save(project));
     }
 
     public void deleteProjectById(Long projectId) {
         projectRepository.deleteById(projectId);
     }
 
-    public Project getProjectById(Long projectId) {
-        Optional<Project> project = projectRepository.findById(projectId);
-        if (project.isPresent()) {
-            return project.get();
+    public ProjectResponse getProjectById(Long projectId) {
+        Optional<Project> projectOptional = projectRepository.findById(projectId);
+        if (projectOptional.isPresent()) {
+            return projectMapper.toResponse(projectOptional.get());
         } else {
-            return new Project();
+            return new ProjectResponse();
         }
     }
-
 }
