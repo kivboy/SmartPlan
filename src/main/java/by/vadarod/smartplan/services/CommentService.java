@@ -6,7 +6,7 @@ import by.vadarod.smartplan.dto.comment.CommentUpdateRequest;
 
 public interface CommentService {
     CommentResponse addComment(CommentCreateRequest createRequest);
-    CommentResponse findCommentById(Long commentId);
+    CommentResponse getCommentById(Long commentId);
     void deleteCommentById(Long commentId);
     CommentResponse updateComment(CommentUpdateRequest updateRequest);
 }

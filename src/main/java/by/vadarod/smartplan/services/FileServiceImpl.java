@@ -28,7 +28,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileResponse findFileById(Long fileId) {
+    public FileResponse getFileById(Long fileId) {
         Optional<File> fileOptional = fileRepository.findById(fileId);
         if (fileOptional.isPresent()) {
             return fileMapper.toResponse(fileOptional.get());

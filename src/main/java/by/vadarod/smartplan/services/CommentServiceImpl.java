@@ -31,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentResponse findCommentById(Long commentId) {
+    public CommentResponse getCommentById(Long commentId) {
         Optional<Comment> commentOptional = commentRepository.findById(commentId);
         if (commentOptional.isPresent()) {
             return commentMapper.toResponse(commentOptional.get());
