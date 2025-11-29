@@ -32,7 +32,7 @@ public class File {
     @Column (name = "file_size", nullable = false)
     private Long fileSize;
     */
-
+    /*
     public File(String fileName, String fileType, LocalDateTime timestamp) {
         if (fileName == null || fileName.isBlank()) {
             throw new IllegalArgumentException("Filename must not be null or blank!");
@@ -44,5 +44,5 @@ public class File {
         this.fileName = fileName;
         this.fileType = fileType;
         this.timestamp = timestamp;
-    }
+    }*/
 }

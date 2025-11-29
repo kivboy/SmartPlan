@@ -27,7 +27,7 @@ public class User {
     private UserRole role;
     @Column (nullable = false)
     private String password;
-
+    /*
     public User(String firstName, String lastName, String email, UserRole role, String password) {
         if ((firstName != null) && firstName.isBlank()) {
             throw new IllegalArgumentException("User firstName must not be blank!");
@@ -55,5 +55,5 @@ public class User {
     public static boolean isValidEmail(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email != null && email.matches(regex);
-    }
+    }*/
 }

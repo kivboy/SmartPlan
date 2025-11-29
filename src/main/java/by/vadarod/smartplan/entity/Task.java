@@ -32,7 +32,7 @@ public class Task {
     private TaskStatus status;
     @Column (name = "task_priority", nullable = false)
     private TaskPriority priority;
-
+    /*
     public Task(LocalDateTime created, LocalDate dueDate, String title, String description, TaskStatus status, TaskPriority priority) {
         if (created == null) {
             throw new IllegalArgumentException("Task created date must not be null!");
@@ -56,5 +56,5 @@ public class Task {
         this.description = description;
         this.status = status;
         this.priority = priority;
-    }
+    }*/
 }
