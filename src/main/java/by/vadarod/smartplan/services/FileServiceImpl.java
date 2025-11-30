@@ -3,6 +3,7 @@ package by.vadarod.smartplan.services;
 import by.vadarod.smartplan.dto.file.FileCreateRequest;
 import by.vadarod.smartplan.dto.file.FileResponse;
 import by.vadarod.smartplan.entity.File;
+import by.vadarod.smartplan.exception.EntityNotFoundException;
 import by.vadarod.smartplan.mapper.FileMapper;
 import by.vadarod.smartplan.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class FileServiceImpl implements FileService {
         if (fileOptional.isPresent()) {
             return fileMapper.toResponse(fileOptional.get());
         } else {
-            return new FileResponse();
+            throw new EntityNotFoundException("Не найден file по id=" + fileId);
         }
     }
 

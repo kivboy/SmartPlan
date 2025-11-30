@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 // http://localhost:8080/swagger-ui/index.html
@@ -18,14 +19,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("projects")
+@RequestMapping("api/v1/projects")
 @Tag(name = "Проекты", description = "Сервисы по работе с проектами")
 public class ProjectRestController {
     private final ProjectService projectService;
 
     @PostMapping
     @Operation(summary = "Добавление проекта", description = "Добавление нового проекта")
-    public ProjectResponse addProject(@RequestBody ProjectCreateRequest createRequest) {
+    public ProjectResponse addProject(@RequestBody @Validated ProjectCreateRequest createRequest) {
         return projectService.addProject(createRequest);
     }
 

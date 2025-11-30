@@ -27,33 +27,5 @@ public class User {
     private UserRole role;
     @Column (nullable = false)
     private String password;
-    /*
-    public User(String firstName, String lastName, String email, UserRole role, String password) {
-        if ((firstName != null) && firstName.isBlank()) {
-            throw new IllegalArgumentException("User firstName must not be blank!");
-        }
-        if ((lastName == null) || lastName.isBlank()) {
-            throw new IllegalArgumentException("User lastName must not be null or blank!");
-        }
-        if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("User email not correct or null!");
-        }
-        if (role == null) {
-            throw new IllegalArgumentException("User role must not be null!");
-        }
-        if ((password == null) || password.isBlank()) {
-            throw new IllegalArgumentException("User password must not be null or blank!");
-        }
 
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.role = role;
-        this.password = password;
-    }
-
-    public static boolean isValidEmail(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        return email != null && email.matches(regex);
-    }*/
 }

@@ -3,6 +3,7 @@ package by.vadarod.smartplan.services;
 import by.vadarod.smartplan.dto.project.ProjectCreateRequest;
 import by.vadarod.smartplan.dto.project.ProjectResponse;
 import by.vadarod.smartplan.entity.Project;
+import by.vadarod.smartplan.exception.EntityNotFoundException;
 import by.vadarod.smartplan.mapper.ProjectMapper;
 import by.vadarod.smartplan.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (projectOptional.isPresent()) {
             return projectMapper.toResponse(projectOptional.get());
         } else {
-            return new ProjectResponse();
+            throw new EntityNotFoundException("Не найден Project по id=" + projectId);
         }
     }
 }

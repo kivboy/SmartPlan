@@ -11,18 +11,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("files")
+@RequestMapping("api/v1/files")
 @Tag(name = "Файлы", description = "Сервисы по работе с файлами")
 public class FileRestController {
     private final FileService fileService;
 
     @PostMapping
     @Operation(summary = "Добавление файла", description = "Добавление нового файла")
-    public FileResponse addFile(@RequestBody FileCreateRequest createRequest) {
+    public FileResponse addFile(@RequestBody @Validated FileCreateRequest createRequest) {
         return fileService.addFile(createRequest);
     }
 

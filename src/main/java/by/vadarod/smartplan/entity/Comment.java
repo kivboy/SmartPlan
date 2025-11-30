@@ -24,18 +24,4 @@ public class Comment {
     private LocalDateTime created;
     private LocalDateTime updated;
 
-    /*
-    public Comment(String text, LocalDateTime created) {
-        if (text == null || text.isEmpty()) {
-            throw new IllegalArgumentException("Comment text must not be null or empty!");
-        }
-
-        if (created == null) {
-            throw new IllegalArgumentException("Created must not be null!");
-        }
-
-        this.text = text;
-        this.created = created;
-    }
-    */
 }
