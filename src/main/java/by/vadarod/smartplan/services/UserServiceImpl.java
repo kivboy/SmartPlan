@@ -4,6 +4,7 @@ import by.vadarod.smartplan.dto.user.UserCreateRequest;
 import by.vadarod.smartplan.dto.user.UserResponse;
 import by.vadarod.smartplan.dto.user.UserUpdateRequest;
 import by.vadarod.smartplan.entity.User;
+import by.vadarod.smartplan.exception.EntityNotFoundException;
 import by.vadarod.smartplan.mapper.UserMapper;
 import by.vadarod.smartplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
         if (user.isPresent()) {
             return userMapper.toResponse(user.get());
         } else {
-            return new UserResponse();
+            throw new EntityNotFoundException("Не найден User по id=" + userId);
         }
     }
 
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
             userMapper.updateUser(user, updateRequest);
             userRepository.save(user);
         } else {
-            // throw exception
+            throw new EntityNotFoundException("Не найден User по id=" + updateRequest.getId());
         }
     }
 }

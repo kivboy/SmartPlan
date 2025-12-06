@@ -12,18 +12,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("comments")
+@RequestMapping("api/v1/comments")
 @Tag(name = "Комментарии", description = "Сервисы по работе с комментариями")
 public class CommentRestController {
     private final CommentService commentService;
 
     @PostMapping
     @Operation(summary = "Добавление комментария", description = "Добавление нового комментария")
-    public CommentResponse addComment(@RequestBody CommentCreateRequest createRequest) {
+    public CommentResponse addComment(@RequestBody @Validated CommentCreateRequest createRequest) {
         return commentService.addComment(createRequest);
     }
 
@@ -40,7 +41,7 @@ public class CommentRestController {
 
     @PatchMapping("/update")
     @Operation(summary = "Обновление комментария", description = "Редактирование комментария")
-    public CommentResponse updateComment(@RequestBody CommentUpdateRequest updateRequest) {
+    public CommentResponse updateComment(@RequestBody @Validated CommentUpdateRequest updateRequest) {
         return commentService.updateComment(updateRequest);
     }
 

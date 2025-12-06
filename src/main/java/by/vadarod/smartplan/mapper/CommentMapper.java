@@ -12,6 +12,5 @@ import java.time.LocalDateTime;
 public interface CommentMapper {
     @Mapping(target = "created", expression = "java(LocalDateTime.now())")
     Comment toEntity(CommentCreateRequest createRequest);
-    //Comment toEntity(CommentUpdateRequest updateRequest);
     CommentResponse toResponse(Comment comment);
 }

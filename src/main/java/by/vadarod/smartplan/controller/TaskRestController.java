@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -19,14 +20,14 @@ import java.util.Collection;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("tasks")
+@RequestMapping("api/v1/tasks")
 @Tag(name = "Задачи", description = "Сервисы по работе с задачами")
 public class TaskRestController {
     private final TaskService taskService;
 
     @PostMapping
     @Operation(summary = "Добавление задачи", description = "Добавление новой задачи")
-    public TaskResponse addTask(@RequestBody TaskCreateRequest createRequest) {
+    public TaskResponse addTask(@RequestBody @Validated TaskCreateRequest createRequest) {
         return taskService.addTask(createRequest);
     }
 

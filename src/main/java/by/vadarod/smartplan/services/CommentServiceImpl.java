@@ -4,6 +4,7 @@ import by.vadarod.smartplan.dto.comment.CommentCreateRequest;
 import by.vadarod.smartplan.dto.comment.CommentResponse;
 import by.vadarod.smartplan.dto.comment.CommentUpdateRequest;
 import by.vadarod.smartplan.entity.Comment;
+import by.vadarod.smartplan.exception.EntityNotFoundException;
 import by.vadarod.smartplan.mapper.CommentMapper;
 import by.vadarod.smartplan.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +20,6 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
 
-//    @Autowired
-//    public CommentServiceImpl(CommentRepository commentRepository) {
-//        this.commentRepository = commentRepository;
-//    }
-
     @Override
     public CommentResponse addComment(CommentCreateRequest createRequest) {
         Comment comment = commentMapper.toEntity(createRequest);
@@ -36,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
         if (commentOptional.isPresent()) {
             return commentMapper.toResponse(commentOptional.get());
         } else {
-            return new CommentResponse();
+            throw new EntityNotFoundException("Не найден comment по id=" + commentId);
         }
     }
 
@@ -54,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
             comment.setUpdated(LocalDateTime.now());
             return commentMapper.toResponse(commentRepository.save(comment));
         } else {
-            return new CommentResponse();
+            throw new EntityNotFoundException("Не найден comment по id=" + updateRequest.getId());
         }
     }
 }

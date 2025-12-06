@@ -11,11 +11,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("users")
+@RequestMapping("api/v1/users")
 @Tag(name = "Пользователи", description = "Сервисы по работе с пользователями")
 public class UserRestController {
 
@@ -26,7 +27,7 @@ public class UserRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation")
     })
-    public UserResponse addUser(@RequestBody UserCreateRequest createRequest) {
+    public UserResponse addUser(@RequestBody @Validated UserCreateRequest createRequest) {
         return userService.addUser(createRequest);
     }
 

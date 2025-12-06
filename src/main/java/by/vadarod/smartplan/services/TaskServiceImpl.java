@@ -3,6 +3,7 @@ package by.vadarod.smartplan.services;
 import by.vadarod.smartplan.dto.task.TaskCreateRequest;
 import by.vadarod.smartplan.dto.task.TaskResponse;
 import by.vadarod.smartplan.entity.Task;
+import by.vadarod.smartplan.exception.EntityNotFoundException;
 import by.vadarod.smartplan.mapper.TaskMapper;
 import by.vadarod.smartplan.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class TaskServiceImpl implements TaskService {
         if (taskOptional.isPresent()) {
             return taskMapper.toResponse(taskOptional.get());
         } else {
-            return new TaskResponse();
+            throw new EntityNotFoundException("Не найден Task по id=" + taskId);
         }
     }
 
