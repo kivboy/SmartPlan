@@ -5,6 +5,7 @@ import by.vadarod.smartplan.dto.user.UserResponse;
 import by.vadarod.smartplan.dto.user.UserUpdateRequest;
 import by.vadarod.smartplan.entity.User;
 import by.vadarod.smartplan.exception.EntityNotFoundException;
+import by.vadarod.smartplan.logging.LoggingAnnotation;
 import by.vadarod.smartplan.mapper.UserMapper;
 import by.vadarod.smartplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @LoggingAnnotation
     public UserResponse getUserById(Long userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
