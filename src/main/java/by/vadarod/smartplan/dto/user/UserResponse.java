@@ -10,6 +10,8 @@ public class UserResponse {
     private String lastName;
     private String email;
     private UserRole role;
+    private String login;
+
 }
 
 /*  Try to use:

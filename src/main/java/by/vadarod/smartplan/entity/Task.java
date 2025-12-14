@@ -10,6 +10,7 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(schema = "plans", name = "tasks")
@@ -32,4 +33,12 @@ public class Task {
     private TaskStatus status;
     @Column (name = "task_priority", nullable = false)
     private TaskPriority priority;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Comment> comments;
 }

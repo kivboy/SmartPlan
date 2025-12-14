@@ -4,20 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 
 @Data
-public class ProjectCreateRequest {
-    @NotBlank(message = "Поле key должно содержать только латинские буквы в верхнем регистре (от 2 до 10 символов)")
-    @Pattern(
-            regexp = "^[A-Z]{2,10}$",
-            message = "Поле key должно содержать только латинские буквы в верхнем регистре (от 2 до 10 символов)"
-    )
-    private String key;
+public class ProjectUpdateRequest{
     @NotBlank(message = "Поле name не должно быть пустым")
     @Length(max = 200, message = "Поле name не должно быть больше 200 символов")
     private String name;

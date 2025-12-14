@@ -34,7 +34,7 @@ public class LoggingAspect {
         long start = System.currentTimeMillis();
         Object result = joinPoint.proceed();
         long end = System.currentTimeMillis();
-        log.info("Метод {} завершён. Время выполнения: {} мс", joinPoint.getSignature().getName(), end - start);
+        log.info("Метод {} завершён. Время выполнения: {} мс", joinPoint.getSignature().toShortString(), end - start);
         return result;
     }
 }
