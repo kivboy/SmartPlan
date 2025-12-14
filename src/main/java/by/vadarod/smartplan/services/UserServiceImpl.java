@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,17 +24,27 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    // имя соответствует имени метода в SecurityConfig
+    private final PasswordEncoder byCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository,
+                           UserMapper userMapper,
+                           PasswordEncoder byCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.byCryptPasswordEncoder = byCryptPasswordEncoder;
     }
 
     @Override
     public UserResponse addUser(UserCreateRequest createRequest) {
         if (!userRepository.existsByLogin(createRequest.getLogin())) {
             User user = userMapper.toEntity(createRequest);
+
+            // хеширование пароля для сохранения в базе используя byCrypt
+            String encodedString = byCryptPasswordEncoder.encode(createRequest.getPassword());
+            user.setPassword(encodedString);
+
             return userMapper.toResponse(userRepository.save(user));
         } else {
             throw new DuplicateEntityException("Login уже используется");
@@ -83,5 +95,15 @@ public class UserServiceImpl implements UserService {
 
         // преобразуем Page<User> → Page<UserResponse> через MapStruct
         return usersPage.map(userMapper::toResponse);
+    }
+
+    @Override
+    public UserDetails getUserInfo(String username) {
+        Optional<User> optionalUser = userRepository.findByLogin(username);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        } else {
+            return null;
+        }
     }
 }
