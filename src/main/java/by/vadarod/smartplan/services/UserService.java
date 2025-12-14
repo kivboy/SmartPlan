@@ -13,4 +13,5 @@ public interface UserService {
     UserResponse updateUser(Long userId, UserUpdateRequest updateRequest);
     Page<UserResponse> getUsers(int page, int size, String sortBy, String direction);
     UserDetails getUserInfo(String username);
+    UserDetails addUserOAuth(UserCreateRequest createRequest);
 }

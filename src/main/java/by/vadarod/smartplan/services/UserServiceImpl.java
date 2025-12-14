@@ -52,6 +52,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDetails addUserOAuth(UserCreateRequest createRequest) {
+        if (!userRepository.existsByLogin(createRequest.getLogin())) {
+            User user = userMapper.toEntity(createRequest);
+
+            // хеширование пароля для сохранения в базе используя byCrypt
+            String encodedString = byCryptPasswordEncoder.encode(createRequest.getPassword());
+            user.setPassword(encodedString);
+
+            return userRepository.save(user);
+        } else {
+            throw new DuplicateEntityException("Login уже используется");
+        }
+    }
+
+    @Override
     @LoggingAnnotation
     public UserResponse getUserById(Long userId) {
         Optional<User> user = userRepository.findById(userId);

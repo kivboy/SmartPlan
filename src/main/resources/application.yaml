@@ -40,5 +40,9 @@ logging:
       springframework:
         web: INFO
 
+jwt:
+  access-token:
+    lifeTime: 5
+  secret-key: TXlTdXBlckhlbGxvV29ybGRKd3RTaWduS2V5QW5kT0F1dGg=
 
 
