@@ -1,8 +1,8 @@
 package by.vadarod.smartplan.entity.enums;
 
 public enum UserRole {
-    USER("Пользователь"),
-    ADMIN("Администратор");
+    USER("USER"),
+    ADMIN("ADMIN");
 
     private final String roleName;
 

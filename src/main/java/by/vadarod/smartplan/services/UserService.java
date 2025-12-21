@@ -4,6 +4,7 @@ import by.vadarod.smartplan.dto.user.UserCreateRequest;
 import by.vadarod.smartplan.dto.user.UserResponse;
 import by.vadarod.smartplan.dto.user.UserUpdateRequest;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserService {
     UserResponse addUser(UserCreateRequest createRequest);
@@ -11,4 +12,5 @@ public interface UserService {
     UserResponse deleteUserById(Long userId);
     UserResponse updateUser(Long userId, UserUpdateRequest updateRequest);
     Page<UserResponse> getUsers(int page, int size, String sortBy, String direction);
+    UserDetails getUserInfo(String username);
 }
