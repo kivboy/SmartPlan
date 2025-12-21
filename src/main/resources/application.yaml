@@ -43,6 +43,8 @@ logging:
 jwt:
   access-token:
     lifeTime: 5
+  refresh-token:
+    lifeTime: 10
   secret-key: TXlTdXBlckhlbGxvV29ybGRKd3RTaWduS2V5QW5kT0F1dGg=
 
 
