@@ -25,6 +25,8 @@ public class User {
     private String email;
     @Column (name = "user_role", nullable = false)
     private UserRole role;
+    @Column (name = "login", length=50, nullable = false)
+    private String login;
     @Column (nullable = false)
     private String password;
 

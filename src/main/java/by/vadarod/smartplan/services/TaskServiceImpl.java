@@ -2,35 +2,49 @@ package by.vadarod.smartplan.services;
 
 import by.vadarod.smartplan.dto.task.TaskCreateRequest;
 import by.vadarod.smartplan.dto.task.TaskResponse;
+import by.vadarod.smartplan.entity.Project;
 import by.vadarod.smartplan.entity.Task;
 import by.vadarod.smartplan.exception.EntityNotFoundException;
 import by.vadarod.smartplan.mapper.TaskMapper;
+import by.vadarod.smartplan.repository.ProjectRepository;
 import by.vadarod.smartplan.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
 
+    private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
 
     @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository, TaskMapper taskMapper) {
+    public TaskServiceImpl(ProjectRepository projectRepository, TaskRepository taskRepository, TaskMapper taskMapper) {
+        this.projectRepository = projectRepository;
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
     }
 
     @Override
-    public TaskResponse addTask(TaskCreateRequest createRequest) {
-        return taskMapper.toResponse(taskRepository.save(taskMapper.toEntity(createRequest)));
+    public TaskResponse addTask(Long projectId, TaskCreateRequest createRequest) {
+
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
+        if (optionalProject.isPresent()) {
+            Task task = taskMapper.toEntity(createRequest);
+            task.setProject(optionalProject.get());
+            return taskMapper.toResponse(taskRepository.save(task));
+        } else {
+            throw new EntityNotFoundException("Не найден проект по id=" + projectId);
+        }
     }
 
     @Override
     public TaskResponse getTaskById(Long taskId) {
-        Optional<Task> taskOptional= taskRepository.findById(taskId);
+        Optional<Task> taskOptional = taskRepository.findById(taskId);
         if (taskOptional.isPresent()) {
             return taskMapper.toResponse(taskOptional.get());
         } else {
@@ -39,7 +53,21 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTaskById(Long taskId) {
-        taskRepository.deleteById(taskId);
+    public TaskResponse deleteTaskById(Long taskId) {
+        Optional<Task> taskOptional = taskRepository.findById(taskId);
+        if (taskOptional.isPresent()) {
+            taskRepository.deleteById(taskId);
+            return taskMapper.toResponse(taskOptional.get());
+        } else {
+            throw new EntityNotFoundException("Не найден Task по id=" + taskId);
+        }
     }
+
+    @Override
+    public Collection<TaskResponse> findTaskByProjectId(Long projectId) {
+        return taskRepository.findByProjectId(projectId).stream()
+                .map(taskMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -1,9 +1,12 @@
 package by.vadarod.smartplan.dto.task;
 
+import by.vadarod.smartplan.entity.enums.TaskPriority;
+import by.vadarod.smartplan.entity.enums.TaskStatus;
+import by.vadarod.smartplan.entity.enums.validation.ValidEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -17,12 +20,13 @@ public class TaskCreateRequest {
     @Length(max= 1000, message = "Поле description не должно быть больше 1000 символов")
     private String description;
     @NotNull(message = "Поле status должно быть заполнено")
-    @Pattern(regexp = "NEW|ASSIGNED|IN_PROCESS|CANCELLED|COMPLETED", message = "Недопустимое значение для статуса")
+    @ValidEnum(enumClass = TaskStatus.class, message = "Недопустимое значение для статуса. Допустимы NEW|ASSIGNED|IN_PROCESS|CANCELLED|COMPLETED")
     private String status;
     @NotNull(message = "Поле priority должно быть заполнено")
-    @Pattern(regexp = "LOW|MEDIUM|HIGH", message = "Недопустимое значение для приоритета")
+    @ValidEnum(enumClass = TaskPriority.class, message = "Недопустимое значение для приоритета. Допустимы LOW|MEDIUM|HIGH")
     private String priority;
 
+    @Schema(hidden = true)
     @AssertTrue(message = "Дата dueDate не должна быть в прошлом")
     public boolean isDueDateAfterCreated() {
         return dueDate.isAfter(LocalDate.now());

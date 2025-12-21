@@ -25,7 +25,7 @@ public class HandlerException {
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> notExist(EntityNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
+        errorResponse.setCode(HttpStatus.NOT_FOUND.value());
         errorResponse.setMessage(ex.getMessage());
 
         return ResponseEntity.badRequest().body(errorResponse);
@@ -49,8 +49,8 @@ public class HandlerException {
     public ResponseEntity<ErrorResponse> generalException(Exception ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorResponse.setMessage("Internal server error");
-
+        errorResponse.setMessage("Произошла непредвиденная ошибка. Пожалуйста, попробуйте позже.");
+        errorResponse.getMessages().add(ex.getMessage());
         return ResponseEntity.internalServerError().body(errorResponse);
     }
 }

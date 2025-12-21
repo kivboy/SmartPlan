@@ -24,4 +24,7 @@ public class Comment {
     private LocalDateTime created;
     private LocalDateTime updated;
 
+    @ManyToOne
+    @JoinColumn(name = "task_id")
+    private Task task;
 }
