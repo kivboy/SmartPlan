@@ -2,6 +2,7 @@ package by.vadarod.smartplan.services;
 
 import by.vadarod.smartplan.entity.RefreshToken;
 import by.vadarod.smartplan.entity.User;
+import by.vadarod.smartplan.exception.CustomRefreshTokenException;
 import by.vadarod.smartplan.jwt.JwtService;
 import by.vadarod.smartplan.jwt.model.JwtAuthenticationResponse;
 import by.vadarod.smartplan.repository.RefreshTokenRepository;
@@ -29,11 +30,11 @@ public class TokenServiceImpl implements TokenService{
     public JwtAuthenticationResponse refresh(String token) {
         Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByToken(token);
         if (optionalRefreshToken.isEmpty()) {
-            throw new RuntimeException("Ваш токен не валиден!");
+            throw new CustomRefreshTokenException("Ваш токен не валиден!");
         } else {
             RefreshToken refreshToken = optionalRefreshToken.get();
             if (refreshToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-                throw new RuntimeException("Время жизни токена истекло!");
+                throw new CustomRefreshTokenException("Время жизни токена истекло!");
             }
 
             User user = refreshToken.getUser();
@@ -58,7 +59,7 @@ public class TokenServiceImpl implements TokenService{
         RefreshToken refreshToken;
         if (optionalRefreshToken.isEmpty()) {
             User user = userRepository.findByLogin(userName).orElseThrow(() ->
-                    new RuntimeException("Такого пользователя нет"));
+                    new CustomRefreshTokenException("Такого пользователя нет"));
             refreshToken = new RefreshToken();
             refreshToken.setUser(user);
         } else {
