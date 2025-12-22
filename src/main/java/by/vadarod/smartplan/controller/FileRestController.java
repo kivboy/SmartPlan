@@ -2,7 +2,7 @@ package by.vadarod.smartplan.controller;
 
 import by.vadarod.smartplan.dto.file.FileCreateRequest;
 import by.vadarod.smartplan.dto.file.FileResponse;
-import by.vadarod.smartplan.services.FileService;
+import by.vadarod.smartplan.service.FileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

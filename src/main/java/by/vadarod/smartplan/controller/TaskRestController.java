@@ -3,7 +3,7 @@ package by.vadarod.smartplan.controller;
 import by.vadarod.smartplan.dto.task.TaskCreateRequest;
 import by.vadarod.smartplan.dto.task.TaskResponse;
 import by.vadarod.smartplan.exception.model.ErrorResponse;
-import by.vadarod.smartplan.services.TaskService;
+import by.vadarod.smartplan.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

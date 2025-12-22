@@ -5,7 +5,7 @@ import by.vadarod.smartplan.dto.project.ProjectPageResponse;
 import by.vadarod.smartplan.dto.project.ProjectResponse;
 import by.vadarod.smartplan.dto.project.ProjectUpdateRequest;
 import by.vadarod.smartplan.exception.model.ErrorResponse;
-import by.vadarod.smartplan.services.ProjectService;
+import by.vadarod.smartplan.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

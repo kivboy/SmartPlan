@@ -5,7 +5,7 @@ import by.vadarod.smartplan.dto.user.UserPageResponse;
 import by.vadarod.smartplan.dto.user.UserResponse;
 import by.vadarod.smartplan.dto.user.UserUpdateRequest;
 import by.vadarod.smartplan.exception.model.ErrorResponse;
-import by.vadarod.smartplan.services.UserService;
+import by.vadarod.smartplan.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,7 +1,7 @@
 package by.vadarod.smartplan.controller;
 
 import by.vadarod.smartplan.jwt.model.JwtAuthenticationResponse;
-import by.vadarod.smartplan.services.TokenService;
+import by.vadarod.smartplan.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

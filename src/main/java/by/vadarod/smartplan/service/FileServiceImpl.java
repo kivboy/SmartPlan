@@ -1,4 +1,4 @@
-package by.vadarod.smartplan.services;
+package by.vadarod.smartplan.service;
 
 import by.vadarod.smartplan.dto.file.FileCreateRequest;
 import by.vadarod.smartplan.dto.file.FileResponse;
