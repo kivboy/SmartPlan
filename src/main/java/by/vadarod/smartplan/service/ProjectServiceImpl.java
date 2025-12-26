@@ -29,6 +29,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public ProjectResponse addProject(ProjectCreateRequest createRequest) {
+
         Project project = projectMapper.toEntity(createRequest);
         if (projectRepository.existsByKey(project.getKey())) {
             throw new DuplicateEntityException("Ключ проекта должен быть уникальным!");
