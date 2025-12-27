@@ -4,10 +4,12 @@ import by.vadarod.smartplan.dto.task.TaskCreateRequest;
 import by.vadarod.smartplan.dto.task.TaskResponse;
 import by.vadarod.smartplan.entity.Project;
 import by.vadarod.smartplan.entity.Task;
+import by.vadarod.smartplan.entity.User;
 import by.vadarod.smartplan.exception.EntityNotFoundException;
 import by.vadarod.smartplan.mapper.TaskMapper;
 import by.vadarod.smartplan.repository.ProjectRepository;
 import by.vadarod.smartplan.repository.TaskRepository;
+import by.vadarod.smartplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +23,17 @@ public class TaskServiceImpl implements TaskService {
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final UserRepository userRepository;
 
     @Autowired
-    public TaskServiceImpl(ProjectRepository projectRepository, TaskRepository taskRepository, TaskMapper taskMapper) {
+    public TaskServiceImpl(ProjectRepository projectRepository,
+                           TaskRepository taskRepository,
+                           TaskMapper taskMapper,
+                           UserRepository userRepository) {
         this.projectRepository = projectRepository;
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -36,6 +43,12 @@ public class TaskServiceImpl implements TaskService {
         if (optionalProject.isPresent()) {
             Task task = taskMapper.toEntity(createRequest);
             task.setProject(optionalProject.get());
+
+            if (createRequest.getUserId() > 0) {
+                Optional<User> optionalUser = userRepository.findById(createRequest.getUserId());
+                optionalUser.ifPresent(task::setUser);
+            }
+
             return taskMapper.toResponse(taskRepository.save(task));
         } else {
             throw new EntityNotFoundException("Не найден проект по id=" + projectId);
