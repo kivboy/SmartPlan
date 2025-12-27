@@ -1,9 +1,6 @@
 package by.vadarod.smartplan.controller;
 
-import by.vadarod.smartplan.dto.user.UserCreateRequest;
-import by.vadarod.smartplan.dto.user.UserPageResponse;
-import by.vadarod.smartplan.dto.user.UserResponse;
-import by.vadarod.smartplan.dto.user.UserUpdateRequest;
+import by.vadarod.smartplan.dto.user.*;
 import by.vadarod.smartplan.exception.model.ErrorResponse;
 import by.vadarod.smartplan.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -89,6 +86,20 @@ public class UserRestController {
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String direction) {
         return userService.getUsers(page, size, sortBy, direction);
+    }
+
+    @GetMapping("/contacts")
+    @Operation(summary = "Список контактов", description = "Получение списка контактной информации пользователей постранично")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation",
+                    content = @Content(mediaType = "application/json",schema = @Schema(implementation = UserContactPageResponse.class)))
+    })
+    public Page<UserContactProjection> getUserContacts(
+            @RequestParam(defaultValue = "%") String firstName,
+            @RequestParam(defaultValue = "%") String lastName,
+            @RequestParam(defaultValue = "0") int page) {
+
+        return userService.getUsersContacts(page, firstName, lastName);
     }
 
 }

@@ -35,4 +35,6 @@ public class UserCreateRequest {
     private String login;
     @NotEmpty(message = "Поле password должно быть заполнено")
     private String password;
+    private boolean enabled = true;
+
 }

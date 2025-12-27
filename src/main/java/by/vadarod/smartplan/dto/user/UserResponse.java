@@ -11,7 +11,7 @@ public class UserResponse {
     private String email;
     private UserRole role;
     private String login;
-
+    private boolean enabled;
 }
 
 /*  Try to use:

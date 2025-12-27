@@ -1,6 +1,7 @@
 package by.vadarod.smartplan.service;
 
 import by.vadarod.smartplan.dto.user.UserCreateRequest;
+import by.vadarod.smartplan.dto.user.UserContactProjection;
 import by.vadarod.smartplan.dto.user.UserResponse;
 import by.vadarod.smartplan.dto.user.UserUpdateRequest;
 import org.springframework.data.domain.Page;
@@ -14,4 +15,5 @@ public interface UserService {
     Page<UserResponse> getUsers(int page, int size, String sortBy, String direction);
     UserDetails getUserInfo(String username);
     UserDetails addUserOAuth(UserCreateRequest createRequest);
+    Page<UserContactProjection> getUsersContacts(int page, String firstNamePattern, String lastNamePattern);
 }

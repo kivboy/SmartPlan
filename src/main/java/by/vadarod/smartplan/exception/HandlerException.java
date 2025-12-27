@@ -3,6 +3,7 @@ package by.vadarod.smartplan.exception;
 import by.vadarod.smartplan.exception.model.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -53,6 +54,16 @@ public class HandlerException {
 
         return ResponseEntity.badRequest().body(errorResponse);
     }
+
+    @ExceptionHandler(value = DisabledException.class)
+    public ResponseEntity<ErrorResponse> disabled(DisabledException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setCode(HttpStatus.FORBIDDEN.value());
+        errorResponse.setMessage(ex.getMessage());
+
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> generalException(Exception ex) {

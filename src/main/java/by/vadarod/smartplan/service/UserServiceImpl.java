@@ -1,5 +1,6 @@
 package by.vadarod.smartplan.service;
 
+import by.vadarod.smartplan.dto.user.UserContactProjection;
 import by.vadarod.smartplan.dto.user.UserCreateRequest;
 import by.vadarod.smartplan.dto.user.UserResponse;
 import by.vadarod.smartplan.dto.user.UserUpdateRequest;
@@ -12,6 +13,7 @@ import by.vadarod.smartplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -67,6 +69,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<UserContactProjection> getUsersContacts(int page, String firstNamePattern, String lastNamePattern) {
+        Sort sort = Sort.by("lastName").ascending();
+        Pageable pageable = PageRequest.of(page, 5, sort);
+
+        return userRepository.findByFirstNameLikeAndLastNameLikeAndEnabledTrue(firstNamePattern, lastNamePattern, pageable );
+    }
+
+    @Override
     @LoggingAnnotation
     public UserResponse getUserById(Long userId) {
         Optional<User> user = userRepository.findById(userId);
@@ -94,6 +104,11 @@ public class UserServiceImpl implements UserService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             userMapper.updateUser(user, updateRequest);
+
+            // хеширование пароля для сохранения в базе используя byCrypt
+            String encodedString = byCryptPasswordEncoder.encode(updateRequest.getPassword());
+            user.setPassword(encodedString);
+
             return userMapper.toResponse(userRepository.save(user));
         } else {
             throw new EntityNotFoundException("Не найден User по id=" + userId);
