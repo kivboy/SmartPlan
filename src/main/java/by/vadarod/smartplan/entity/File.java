@@ -20,16 +20,13 @@ public class File {
     private Long id;
     @Column (name = "file_name", length=200, nullable = false)
     private String fileName;
-    @Column (name = "file_type", length=10)
+    @Column (name = "file_type", length=50)
     private String fileType;
     @Column (nullable = false)
     private LocalDateTime timestamp;
 
-    /* Закомментировано до момента начала работы с файлами
-    @Lob
-    @Column (name = "file_data", nullable = false)
-    private byte[] fileData;
-    @Column (name = "file_size", nullable = false)
-    private Long fileSize;
-    */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id")
+    @ToString.Exclude
+    private Task task;
 }

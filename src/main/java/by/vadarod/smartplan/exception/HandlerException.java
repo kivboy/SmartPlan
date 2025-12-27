@@ -46,6 +46,15 @@ public class HandlerException {
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
+    @ExceptionHandler(value = CustomInvalidRequestException.class)
+    public ResponseEntity<ErrorResponse> processError(CustomInvalidRequestException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setCode(HttpStatus.BAD_REQUEST.value());
+        errorResponse.setMessage(ex.getMessage());
+
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
     @ExceptionHandler(value = CustomRefreshTokenException.class)
     public ResponseEntity<ErrorResponse> tokenError(CustomRefreshTokenException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
