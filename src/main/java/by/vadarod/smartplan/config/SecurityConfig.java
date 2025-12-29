@@ -34,7 +34,7 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize->authorize
-                        .requestMatchers("/oauth/sign-up").denyAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/oauth/**").permitAll()
                         .requestMatchers("/api/v1/project/**").authenticated()
                         .requestMatchers("/api/v1/task/**").authenticated()

@@ -1,14 +1,18 @@
-package by.vadarod.smartplan.jwt.model;
+package by.vadarod.smartplan.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
-public class JwtAuthenticationRequest {
+public class UserOauthCreateRequest {
+    @NotBlank(message = "Поле firstName должно быть заполнено")
+    private String firstName;
+    @NotBlank(message = "Поле lastName должно быть заполнено")
+    private String lastName;
+    @NotEmpty(message = "Поле email должно быть заполнено")
+    @Email(message = "Указан некорректный формат для поля email")
+    private String email;
     @NotBlank(message = "Поле login должно быть заполнено")
     @Schema(
             description = "Логин пользователя. Допустимы только латинские буквы, цифры и символы _-",

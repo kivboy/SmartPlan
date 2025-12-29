@@ -1,6 +1,7 @@
 package by.vadarod.smartplan.jwt;
 
 import by.vadarod.smartplan.dto.user.UserCreateRequest;
+import by.vadarod.smartplan.dto.user.UserOauthCreateRequest;
 import by.vadarod.smartplan.jwt.model.JwtAuthenticationRequest;
 import by.vadarod.smartplan.jwt.model.JwtAuthenticationResponse;
 import by.vadarod.smartplan.service.TokenService;
@@ -23,7 +24,7 @@ public class SignService {
     private final UserDetailsService userDetailsService;
     private final TokenService tokenService;
 
-    public JwtAuthenticationResponse signUp(UserCreateRequest createRequest) {
+    public JwtAuthenticationResponse signUp(UserOauthCreateRequest createRequest) {
         UserDetails userDetails = userService.addUserOAuth(createRequest);
         String refreshToken = tokenService.generateRefreshToken(userDetails.getUsername());
         JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();

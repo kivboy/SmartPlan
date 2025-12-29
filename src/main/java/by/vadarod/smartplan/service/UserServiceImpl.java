@@ -1,9 +1,6 @@
 package by.vadarod.smartplan.service;
 
-import by.vadarod.smartplan.dto.user.UserContactProjection;
-import by.vadarod.smartplan.dto.user.UserCreateRequest;
-import by.vadarod.smartplan.dto.user.UserResponse;
-import by.vadarod.smartplan.dto.user.UserUpdateRequest;
+import by.vadarod.smartplan.dto.user.*;
 import by.vadarod.smartplan.entity.User;
 import by.vadarod.smartplan.exception.DuplicateEntityException;
 import by.vadarod.smartplan.exception.EntityNotFoundException;
@@ -54,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails addUserOAuth(UserCreateRequest createRequest) {
+    public UserDetails addUserOAuth(UserOauthCreateRequest createRequest) {
         if (!userRepository.existsByLogin(createRequest.getLogin())) {
             User user = userMapper.toEntity(createRequest);
 

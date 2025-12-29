@@ -48,11 +48,7 @@ public class FileRestController {
         return ResponseEntity.ok(savedFile);
     }
 
-    // Получение метаданных всех файлов
-//    @GetMapping
-//    public ResponseEntity<List<File>> listFiles() {
-//        return ResponseEntity.ok(fileService.getAllFiles());
-//    }
+
 
     // Получение метаданных одного файла
     @GetMapping("/{id}")

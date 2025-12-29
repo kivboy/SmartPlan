@@ -24,6 +24,7 @@ springdoc:
     enabled: true
   api-docs:
     enabled: true
+  use-management-port: true
   show-actuator: true
 
 management:
