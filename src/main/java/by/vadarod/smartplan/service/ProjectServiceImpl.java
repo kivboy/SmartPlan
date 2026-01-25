@@ -1,4 +1,4 @@
-package by.vadarod.smartplan.services;
+package by.vadarod.smartplan.service;
 
 import by.vadarod.smartplan.dto.project.ProjectCreateRequest;
 import by.vadarod.smartplan.dto.project.ProjectResponse;
@@ -29,6 +29,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     public ProjectResponse addProject(ProjectCreateRequest createRequest) {
+
         Project project = projectMapper.toEntity(createRequest);
         if (projectRepository.existsByKey(project.getKey())) {
             throw new DuplicateEntityException("Ключ проекта должен быть уникальным!");
