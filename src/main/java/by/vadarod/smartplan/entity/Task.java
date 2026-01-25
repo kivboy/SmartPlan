@@ -41,4 +41,8 @@ public class Task {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Comment> comments;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

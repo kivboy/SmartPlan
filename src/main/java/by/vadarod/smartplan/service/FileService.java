@@ -1,10 +1,14 @@
 package by.vadarod.smartplan.service;
 
-import by.vadarod.smartplan.dto.file.FileCreateRequest;
 import by.vadarod.smartplan.dto.file.FileResponse;
 
+import java.util.Collection;
+
 public interface FileService {
-    FileResponse addFile(FileCreateRequest createRequest);
-    FileResponse getFileById(Long fileId);
+
     void deleteFileById(Long fileId);
+    FileResponse saveFile(Long taskId, String fileName, String fileType, byte[] data);
+    FileResponse getFileMetadata(Long fileId);
+    byte[] getFileData(Long fileId);
+    Collection<FileResponse> getFilesByTaskId(Long taskId);
 }

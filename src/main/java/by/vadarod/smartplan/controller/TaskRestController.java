@@ -2,7 +2,9 @@ package by.vadarod.smartplan.controller;
 
 import by.vadarod.smartplan.dto.task.TaskCreateRequest;
 import by.vadarod.smartplan.dto.task.TaskResponse;
+import by.vadarod.smartplan.dto.task.TaskUpdateStatusRequest;
 import by.vadarod.smartplan.exception.model.ErrorResponse;
+import by.vadarod.smartplan.security.SecurityUtils;
 import by.vadarod.smartplan.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -74,6 +76,35 @@ public class TaskRestController {
     public Collection<TaskResponse> getTasksByProjectId(@PathVariable Long projectId) {
         return taskService.findTaskByProjectId(projectId);
     }
+
+    @PatchMapping("/{id}/status")
+    @Operation(summary = "Обновление статуса задачи", description = "Переход задачи между статусами")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation",
+                    content = @Content(mediaType = "application/json",schema = @Schema(implementation = TaskResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Task not found", content = @Content)
+    })
+    public TaskResponse updateTaskStatus(@PathVariable("id") Long taskId, @RequestBody @Validated TaskUpdateStatusRequest updateStatusRequest) {
+        return taskService.updateTaskStatus(taskId, updateStatusRequest);
+    }
+
+    @GetMapping("/my")
+    @Operation(summary = "Список задач", description = "Получение списка задач текущего пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Список задач пользователя",
+                    content = @Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = TaskResponse.class))
+                    )
+            )
+    })
+    public Collection<TaskResponse> getTasksForCurrentUser() {
+
+        Long userId = SecurityUtils.getCurrentUserIdOrThrow();
+
+        return taskService.findTaskByUserId(userId);
+    }
+
 
 //    @GetMapping("/find")
 //    public Collection<TaskResponse> getTaskByDate(@RequestParam("dateFrom") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom) {

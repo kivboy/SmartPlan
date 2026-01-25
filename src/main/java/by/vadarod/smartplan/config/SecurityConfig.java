@@ -34,10 +34,13 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize->authorize
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/oauth/**").permitAll()
                         .requestMatchers("/api/v1/project/**").authenticated()
                         .requestMatchers("/api/v1/task/**").authenticated()
+                        .requestMatchers("/api/v1/file/**").authenticated()
                         .requestMatchers("/api/v1/comment/**").authenticated()
+                        .requestMatchers("/api/v1/user/contacts/**").authenticated()
                         .requestMatchers("/api/v1/user/**").hasAuthority("ADMIN"))
                 .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
                 .exceptionHandling(ex -> {

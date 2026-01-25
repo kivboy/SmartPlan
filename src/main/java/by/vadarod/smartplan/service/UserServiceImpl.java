@@ -1,8 +1,6 @@
 package by.vadarod.smartplan.service;
 
-import by.vadarod.smartplan.dto.user.UserCreateRequest;
-import by.vadarod.smartplan.dto.user.UserResponse;
-import by.vadarod.smartplan.dto.user.UserUpdateRequest;
+import by.vadarod.smartplan.dto.user.*;
 import by.vadarod.smartplan.entity.User;
 import by.vadarod.smartplan.exception.DuplicateEntityException;
 import by.vadarod.smartplan.exception.EntityNotFoundException;
@@ -12,6 +10,7 @@ import by.vadarod.smartplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails addUserOAuth(UserCreateRequest createRequest) {
+    public UserDetails addUserOAuth(UserOauthCreateRequest createRequest) {
         if (!userRepository.existsByLogin(createRequest.getLogin())) {
             User user = userMapper.toEntity(createRequest);
 
@@ -64,6 +63,14 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new DuplicateEntityException("Login уже используется");
         }
+    }
+
+    @Override
+    public Page<UserContactProjection> getUsersContacts(int page, String firstNamePattern, String lastNamePattern) {
+        Sort sort = Sort.by("lastName").ascending();
+        Pageable pageable = PageRequest.of(page, 5, sort);
+
+        return userRepository.findByFirstNameLikeAndLastNameLikeAndEnabledTrue(firstNamePattern, lastNamePattern, pageable );
     }
 
     @Override
@@ -94,6 +101,11 @@ public class UserServiceImpl implements UserService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             userMapper.updateUser(user, updateRequest);
+
+            // хеширование пароля для сохранения в базе используя byCrypt
+            String encodedString = byCryptPasswordEncoder.encode(updateRequest.getPassword());
+            user.setPassword(encodedString);
+
             return userMapper.toResponse(userRepository.save(user));
         } else {
             throw new EntityNotFoundException("Не найден User по id=" + userId);

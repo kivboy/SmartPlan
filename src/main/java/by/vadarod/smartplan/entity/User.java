@@ -35,6 +35,8 @@ public class User implements UserDetails {
     private String login;
     @Column (nullable = false)
     private String password;
+    @Column (nullable = false)
+    private boolean enabled = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -63,6 +65,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

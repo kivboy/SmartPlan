@@ -9,6 +9,8 @@ import java.time.LocalDate;
 @Data
 public class TaskResponse {
     private Long id;
+    private Long projectId;
+    private Long userId;
     private LocalDate dueDate;
     private String title;
     private String description;

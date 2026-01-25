@@ -19,4 +19,7 @@ public class UserUpdateRequest {
     private String role;
     @NotEmpty(message = "Поле password должно быть заполнено")
     private String password;
+    @NotNull(message = "Поле enabled должно быть заполнено")
+    private boolean enabled;
+
 }
