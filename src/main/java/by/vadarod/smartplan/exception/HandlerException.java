@@ -45,6 +45,15 @@ public class HandlerException {
         return ResponseEntity.badRequest().body(errorResponse);
     }
 
+    @ExceptionHandler(value = CustomRefreshTokenException.class)
+    public ResponseEntity<ErrorResponse> tokenError(CustomRefreshTokenException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setCode(HttpStatus.FORBIDDEN.value());
+        errorResponse.setMessage(ex.getMessage());
+
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> generalException(Exception ex) {
         ErrorResponse errorResponse = new ErrorResponse();
