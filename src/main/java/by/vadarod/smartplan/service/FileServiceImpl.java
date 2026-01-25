@@ -14,8 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -84,6 +85,13 @@ public class FileServiceImpl implements FileService {
             throw new EntityNotFoundException("File content not found for fileId=" + fileId);
         }
         return content.getData();
+    }
+
+    @Override
+    public Collection<FileResponse> getFilesByTaskId(Long taskId) {
+        return fileRepository.findByTaskId(taskId).stream()
+                .map(fileMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
 //    @Transactional(readOnly = true)

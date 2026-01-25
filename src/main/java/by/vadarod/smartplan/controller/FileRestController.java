@@ -4,6 +4,7 @@ import by.vadarod.smartplan.dto.file.FileResponse;
 import by.vadarod.smartplan.exception.model.ErrorResponse;
 import by.vadarod.smartplan.service.FileService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collection;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,7 +50,19 @@ public class FileRestController {
         return ResponseEntity.ok(savedFile);
     }
 
-
+    @GetMapping("/task/{taskId}")
+    @Operation(summary = "Список файлов для задачи", description = "Получить список файлов по id задачи")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Список файлов связанных с задачей",
+                    content = @Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = FileResponse.class))
+                    )
+            )
+    })
+    public Collection<FileResponse> getFilesByTaskId(@PathVariable Long taskId) {
+        return fileService.getFilesByTaskId(taskId);
+    }
 
     // Получение метаданных одного файла
     @GetMapping("/{id}")
